@@ -154,12 +154,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 let style = document.head.querySelector(`style#${styleElementID}`);
                 if (style) {
                     // Updates existing <style> content
-                    style.innerHTML = customHighlightStyling(selectElementID);
+                    style.innerHTML = customHighlightStyling(selectElementID, highlightingClassName);
                 } else {
                     // Create and appended new <style> element
                     style = document.createElement('style');
                     style.id = styleElementID;
-                    style.innerHTML = customHighlightStyling(selectElementID);
+                    style.innerHTML = customHighlightStyling(selectElementID, highlightingClassName);
                     document.head.appendChild(style);
                 }
 
