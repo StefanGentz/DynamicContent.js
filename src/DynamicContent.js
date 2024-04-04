@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
      * It is self-containing, has no external dependencies, and is highly customizable
      * Check the documentation below for implementation in AEM Sites and DITA OT.
      *
-     * See the readme.md on https://github.com/StefanGentz/dynamic-content/
+     * See the readme.md on https://github.com/StefanGentz/DynamicContent.js
     */
     
     // Base Configuration
