@@ -94,13 +94,13 @@ In the example below, the `rev` attribute is used:
 </topic>
 ```
 
-Now you only need to make sure that in `DynamicContent.js` the `const attributeName` is defined accordingly. Make sure to prefix the attribute name with `data-` like in this example:
+Now, you only need to make sure that in `DynamicContent.js`, the `const attributeName` is defined accordingly. Make sure to prefix the attribute name with `data-` like in this example:
 
 ```javascript
 const  attributeName = 'data-rev';
 ```
 
-If you want to use any other attribute, you nee need to define attribute name accordingly. Assumed, you you are using `platform` or `audience` in DITA, you need to define `const attributeName` like this:
+If you want to use any other attribute, you need to define the attribute name accordingly. Assumed, you are using `platform` or `audience` in DITA, you need to define `const attributeName` like this:
 
 ```javascript
 const attributeName = 'data-platform';
@@ -140,6 +140,6 @@ const attributeName = 'data-audience';
 
 - Test the integration thoroughly in AEM’s author and publish environments, ensuring the script’s functionality harmonizes with content dynamics and user interactions typical in your AEM Sites.
 - Consider accessibility and responsiveness in your implementation to maintain an inclusive user experience.
-- Keep in mind that modifications to the DITA-OT or its plugins might require maintenance when updating the DITA OT toolkit version.
+- Keep in mind that modifications to the DITA-OT or its plugins might require maintenance when updating the DITA-OT toolkit version.
 
 This documentation aims to provide a helpful guide to integrating and utilizing the Dynamic Content Highlighting script in various environments, with a focus on enhancing dynamic content navigation and user interaction.
