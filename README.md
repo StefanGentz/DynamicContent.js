@@ -28,7 +28,7 @@ Integrating the Dynamic Content Highlighting script into an HTML5 template allow
 
 #### Step 1: Include the Script
 
-First, ensure the JavaScript file is accessible by placing it in a suitable directory within your project structure, such as a js folder. Then, include the script in your HTML5 template by adding the following `<script>` tag just before the closing `</body>` tag:
+First, ensure the JavaScript file is accessible by placing it in a suitable directory within your project structure, such as a `js` folder. Then, include the script in your HTML5 template by adding the following `<script>` tag just before the closing `</body>` tag:
 
 ```html
 <script src="path/to/js/DynamicContent.js"></script>
@@ -78,7 +78,6 @@ In the example below, the `rev` attribute is used:
   <title>Dynamic Content</title>
   <body>
     <p>Just add the required attribute to your content. Example:</p>
-    <p>Example:</p>
     <ul>
       <li>
         <p>This is a list item.</p>
