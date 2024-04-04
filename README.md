@@ -14,6 +14,7 @@ Dynamic Content Highlighting is a highly configurable, self-contained JavaScript
 
 
 > ℹ️  NOTE:
+> 
 > The select dropdown is only added if the script has actually found elements with the defined attribute. If no elements with the defined attribute are found, no dropdown is added, as it would otherwise result in an empty and, therefore, confusing UI element without functionality.
 
 
