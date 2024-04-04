@@ -2,11 +2,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Define constants for script metadata
     const scriptName = "Dynamic Content Highlighting";
-    const scriptVersion = "2024.4.002";
+    const scriptVersion = "2024.4.003";
 
     /**
      * Name: Dynamic Content Highlighting
-     * Version: 2024.4.002
+     * Version: 2024.4.003
      * Shortdesc: Dynamically generates a dropdown from defined attribute values and highlights.
      * matching elements on selection change.
      * 
