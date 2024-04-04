@@ -2,7 +2,7 @@
 
 ## Overview
 
-Dynamic Content Highlighting is a highly configurable, self-contained JavaScript script designed to enhance the user experience on websites by introducing a dynamic dropdown menu. This script allows users to visually highlight elements on a webpage based on values of a specified custom attribute. Targeted at content-driven websites, it offers a seamless way to navigate and interact with dynamic content.
+Dynamic Content Highlighting is a highly configurable, self-contained JavaScript script designed to enhance the user experience on websites by introducing a dynamic dropdown menu. This script allows users to visually highlight elements on a webpage based on the values of a specified custom attribute. Targeted at content-driven websites, it offers a seamless way to navigate and interact with dynamic content.
 
 ## Features
 
@@ -11,6 +11,11 @@ Dynamic Content Highlighting is a highly configurable, self-contained JavaScript
 - Configurable to use any attribute and element for dropdown generation and content highlighting.
 - Self-contained with no external dependencies, ensuring ease of integration.
 - Offers extensive customizability to fit the styling and functional requirements of most web projects.
+
+```
+ℹ️  NOTE:
+The select dropdown is only added if the script has actually found elements with the defined attribute. If no elements with the defined attribute are found, no dropdown is added, as it would otherwise result in an empty and, therefore, confusing UI element without functionality.
+```
 
 ## Version
 
