@@ -14,7 +14,7 @@ Dynamic Content Highlighting is a highly configurable, self-contained JavaScript
 
 ## Version
 
-- 2024.4.002
+- 2024.4.003
 
 ## Author
 
