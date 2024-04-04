@@ -7,54 +7,19 @@ document.addEventListener('DOMContentLoaded', function() {
     /**
      * Name: Dynamic Content Highlighting
      * Version: 2024.4.002
-     * Shortdesc: Dynamically generates a dropdown from defined attribute values and highlights 
+     * Shortdesc: Dynamically generates a dropdown from defined attribute values and highlights.
      * matching elements on selection change.
+     * 
      * Author: Stefan Gentz <gentz@adobe.com>
      * 
      * This script enhances the user experience on a website by introducing a dropdown menu (<select>)
-     * that allows users to visually highlight elements based on a custom attribute ('data-rev').
+     * that allows users to visually highlight elements based on a custom attribute (e.g., 'data-rev').
      * It's crafted to enhance dynamic content-driven experiences.
-     * The script limits the scope to parsing the descendants of a defined area of webpage.
-     * It is self-containing and has no exernal dependencies and is highly customizable
+     * The script limits the scope to parsing the descendants of a defined area of a webpage.
+     * It is self-containing, has no external dependencies, and is highly customizable
      * Check the documentation below for implementation in AEM Sites and DITA OT.
      *
-     * Integration into Adobe Experience Manager (AEM) Sites
-     *
-     * 1. Create a Client Library:
-     *    - Place the JavaScript code into a `.js` file within a client library folder of your AEM project.
-     *    - Ensure the client library category is included in the page or component where this functionality is needed.
-     *
-     * 2. Embedding in a Component:
-     *    - For direct use within a specific AEM component, include the script tag referencing this JS file
-     *      at the bottom of the component's HTML file.
-     *    - Alternatively, use AEM's HTML Template Language (HTL) to conditionally include the script based on component properties.
-     *
-     * 3. Global Use Across the Site:
-     *    - To apply this functionality broadly across the site, include the client library in the global page template.
-     *      This ensures the script is loaded on every page where the functionality might be useful.
-     *
-     * Note:
-     * - Test the integration thoroughly in AEM's author and publish environments, ensuring the script's functionality
-     *   harmonizes with content dynamics and user interactions typical in your AEM Sites.
-     * - Consider accessibility and responsiveness in your implementation to maintain an inclusive user experience.
-     *
-     * Documentation for Integration into the DITA Open Toolkit
-     *
-     * 1. Customizing the HTML Output:
-     *    - Modify the DITA-OT HTML5 plugin to include the JavaScript code. This can be done by adding the script
-     *      directly to the `common/js` directory within the plugin and referencing it in the plugin's HTML template files.
-     *
-     * 2. Plugin Extension:
-     *    - Create a custom plugin for the DITA Open Toolkit that extends the HTML5 output. In your plugin, include
-     *      the script within the resources folder and ensure it's copied to the output directory during the build process.
-     *
-     * 3. Build Process:
-     *    - Ensure that during the build process, the DITA-OT copies the script into the output directory. Adjust the
-     *      build.xml file to include a step that copies the JS file into the `out` directory.
-     *
-     * Note:
-     * - Keep in mind that modifications to the DITA-OT or its plugins might require maintenance when updating 
-     *   the DITA OT toolkit version.
+     * See the readme.md on https://github.com/StefanGentz/dynamic-content/
     */
     
     // Base Configuration
@@ -63,14 +28,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // - where the dropdown should be inserted,
     // - define the search scope to the descendants of a specific element of the page,
     // - which attribute is used to gather the values for the dropdown,
-    // - which class name will be added to the elements to highligh,
+    // - which class name will be added to the elements to highlight,
     // - define if you want to sort the entries in the <select> dropdown ascending or descending,
     // - define your custom css for styling the <select> dropdown and the matches.
     
     // The id for the custom <style id="foo"> element
     const styleElementID = "dynamicContentStyles";
     const selectElementID = "dynamicContentSelect";
-    const selectElementDefaultOptionText = "Select a release …"
+    const selectElementDefaultOptionText = "Select a release …";
 
     // The <select> dropdown will be inserted as the first child of the element defined here:
     const dropdownTargetPos = document.querySelector('div.topic.section');
@@ -84,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const attributeName = 'data-rev';
     const highlightingClassName = `${attributeName}-highlighted`;
     
-    // Defines sorting order for dropdown values. Can be 'ascending' or 'descending'
+    // Defines sorting order for dropdown values. It can be 'ascending' or 'descending'
     const sortDirection = 'descending';
 
     // Generates custom CSS for the dropdown and highlighted elements
@@ -185,7 +150,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (attributeValues.size > 0) {
 
-                // Check for existing <style> element or create and insert a new one.
+                // Check for existing <style> element with the defined custom ID or create and insert a new one.
                 let style = document.head.querySelector(`style#${styleElementID}`);
                 if (style) {
                     // Updates existing <style> content
