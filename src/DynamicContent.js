@@ -126,7 +126,8 @@ document.addEventListener('DOMContentLoaded', function() {
     /* Styling for highlighting the elements */
     
     .topic .topic :not(.${highlightingClassName}) {
-        color: rgb(90, 90, 90);
+        /* Could be used in a future version to format the rest of the topic in, e.g., gray, to make the highlighted text stand out more */ 
+        /* color: rgb(90, 90, 90); */
     }
     
     .${highlightingClassName}, .${highlightingClassName} * {
