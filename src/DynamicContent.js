@@ -2,11 +2,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Define constants for script metadata
     const scriptName = "Dynamic Content Highlighting";
-    const scriptVersion = "2024.4.003";
+    const scriptVersion = "2024.4.004";
 
     /**
      * Name: Dynamic Content Highlighting
-     * Version: 2024.4.003
+     * Version: 2024.4.004
      * Shortdesc: Dynamically generates a dropdown from defined attribute values and highlights.
      * matching elements on selection change.
      * 
@@ -32,9 +32,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // - define if you want to sort the entries in the <select> dropdown ascending or descending,
     // - define your custom css for styling the <select> dropdown and the matches.
     
-    // The id for the custom <style id="foo"> element
+    // The id for the custom <style id="styleElementID"> and the <select id="selectElementID"> elements
     const styleElementID = "dynamicContentStyles";
     const selectElementID = "dynamicContentSelect";
+    // Text for the default option in the select dropdown
     const selectElementDefaultOptionText = "Select a release …";
 
     // The <select> dropdown will be inserted as the first child of the element defined here:
@@ -136,94 +137,116 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     `;
     }
-    
+
+    function createOrUpdateStyleElement() {
+
+        // Check for existing <style> element with the defined custom ID or create and insert a new one.
+        let styleElement = document.head.querySelector(`style#${styleElementID}`);
+        if (styleElement) {
+            // Updates existing <style> content if it already exists
+            styleElement.innerHTML = customHighlightStyling(selectElementID, highlightingClassName);
+        } else {
+            // Create and appended new <style> element
+            styleElement = document.createElement('style');
+            styleElement.id = styleElementID;
+            styleElement.innerHTML = customHighlightStyling(selectElementID, highlightingClassName);
+            document.head.appendChild(styleElement);
+        }
+        return styleElement;
+
+    }
+
+    function collectandSortAttributeValues(searchScopeSelector) {
+
+        // Collects unique attribute values for the defined attribute in the defined search scope
+        const attributeValues = new Set();
+        document.querySelectorAll(`${searchScopeSelector} [${attributeName}]`).forEach(el => {
+            attributeValues.add(el.getAttribute(attributeName));
+        });
+
+        // Sorts the collected values based on the defined direction.
+        const sortedValues = Array.from(attributeValues).sort((a, b) => {
+            if (sortDirection === 'ascending') {
+                return a.localeCompare(b, undefined, {numeric: true});
+            } else {
+                return b.localeCompare(a, undefined, {numeric: true});
+            }
+        });
+
+        return sortedValues;
+    }
+
+    function createOrUpdateSelectElement(sortedValues) {
+
+        // Check for existing <selectElement> element or create a new one.
+        let selectElement = document.body.querySelector(`select#${selectElementID}`);
+
+        if (selectElement) {
+            // Remove values from existing <select id="selectElementID">
+            while (selectElement.firstChild) {
+                selectElement.removeChild(selectElement.firstChild);
+            };
+            // Add collected unique values to existing <select id="selectElementID">
+            const options = sortedValues.map(value => new Option(value, value));
+            selectElement.append(new Option(`${selectElementDefaultOptionText}`, ''));
+            selectElement.append(...options);
+        } else {
+            // Create new <select id="selectElementID"> element and populate it
+            selectElement = document.createElement('select');
+            selectElement.id = selectElementID;
+            const options = sortedValues.map(value => new Option(value, value));
+            selectElement.append(new Option(`${selectElementDefaultOptionText}`, ''));
+            selectElement.append(...options);
+            // Insert <select> element as first child at the defined target position.
+            dropdownTargetPos.insertBefore(selectElement, dropdownTargetPos.firstChild);
+
+        }
+
+        return selectElement;
+
+    }
+
+    function addEventListenerToSelectElement(styleElement, selectElement, searchScopeSelector) {
+        // Adds event listener for highlighting matching elements upon selection change.
+        selectElement.addEventListener('change', function() {
+                    
+            // Removes highlighting class from all elements before adding to new matches.
+            document.querySelectorAll(`.${highlightingClassName}`).forEach(el => {
+                el.classList.remove(highlightingClassName);
+            });
+
+            // Add highlighting class to the matching elements
+            if (this.value) {
+                // Adds highlighting class to elements matching the selected value.
+                document.querySelectorAll(`${searchScopeSelector} [${attributeName}="${this.value}"]`).forEach(el => {
+                    el.classList.add(`${highlightingClassName}`);
+                });
+        
+                // Updates custom styling based on current selection
+                styleElement.innerHTML = customHighlightStyling(selectElementID, highlightingClassName);
+            } else {
+                // Resets to default styling if no selection is made
+                styleElement.innerHTML = customHighlightStyling(selectElementID, highlightingClassName);
+            }
+        });
+    }
+
     if (dropdownTargetPos) {
 
         const searchScopeSelector = `${searchScopeElement || ''}${searchScopeID ? `#${searchScopeID}` : ''}${searchScopeClass ? `.${searchScopeClass.split(' ').join('.')}` : ''}`;
 
         if (searchScopeSelector) {
 
-            // Collects unique attribute values for the defined from defined search scope.
-            const attributeValues = new Set();
-            document.querySelectorAll(`${searchScopeSelector} [${attributeName}]`).forEach(el => {
-                attributeValues.add(el.getAttribute(attributeName));
-            });
+            let sortedValues = collectandSortAttributeValues(searchScopeSelector);
 
-            if (attributeValues.size > 0) {
+            if (sortedValues.length > 0) {
 
-                // Check for existing <style> element with the defined custom ID or create and insert a new one.
-                let style = document.head.querySelector(`style#${styleElementID}`);
-                if (style) {
-                    // Updates existing <style> content
-                    style.innerHTML = customHighlightStyling(selectElementID, highlightingClassName);
-                } else {
-                    // Create and appended new <style> element
-                    style = document.createElement('style');
-                    style.id = styleElementID;
-                    style.innerHTML = customHighlightStyling(selectElementID, highlightingClassName);
-                    document.head.appendChild(style);
-                }
+                let styleElement = createOrUpdateStyleElement ();
 
-                // Sorts the collected values based on the defined direction.
-                const sortedValues = Array.from(attributeValues).sort((a, b) => {
-                    if (sortDirection === 'ascending') {
-                        return a.localeCompare(b, undefined, {numeric: true});
-                    } else {
-                        return b.localeCompare(a, undefined, {numeric: true});
-                    }
-                });
+                let selectElement = createOrUpdateSelectElement(sortedValues);
 
-                // Check for existing <select> element or create a new one.
-                let select = document.body.querySelector(`select#${selectElementID}`);
-                if (select) {
-                    // Remove values from existing <select id="selectElementID">
-                    while (select.firstChild) {
-                        select.removeChild(select.firstChild);
-                    };
-                    // Add collected unique values to existing <select id="selectElementID">
-                    select.appendChild(new Option(`${selectElementDefaultOptionText}`, ''));
-                    sortedValues.forEach(value => {
-                        select.appendChild(new Option(`${value}`, value));
-                    });
-                } else {
-                    // Create new <select id="selectElementID"> element and populate it
-                    select = document.createElement('select');
-                    select.id = selectElementID;
-                    select.appendChild(new Option(`${selectElementDefaultOptionText}`, ''));
-                    sortedValues.forEach(value => {
-                        select.appendChild(new Option(`${value}`, value));
-                    });
-                }
+                addEventListenerToSelectElement(styleElement, selectElement, searchScopeSelector);
 
-                // Insert <select> element as first child at the defined target position.
-                if (dropdownTargetPos) {
-                    dropdownTargetPos.insertBefore(select, dropdownTargetPos.firstChild);
-                } else {
-                    console.error(`Target position "${dropdownTargetPos}" for <select id="${selectElementID}"> element not found. Could not add the element.`);
-                }
-
-                // Adds event listener for highlighting matching elements upon selection change.
-                select.addEventListener('change', function() {
-                    
-                    // Removes highlighting class from all elements before adding to new matches.
-                    document.querySelectorAll(`.${highlightingClassName}`).forEach(el => {
-                        el.classList.remove(highlightingClassName);
-                    });
-
-                    // Add highlighting class to the matching elements
-                    if (this.value) {
-                        // Adds highlighting class to elements matching the selected value.
-                        document.querySelectorAll(`${searchScopeSelector} [${attributeName}="${this.value}"]`).forEach(el => {
-                            el.classList.add(`${highlightingClassName}`);
-                        });
-                
-                        // Updates custom styling based on current selection
-                        style.innerHTML = customHighlightStyling(selectElementID, highlightingClassName);
-                    } else {
-                        // Resets to default styling if no selection is made
-                        style.innerHTML = customHighlightStyling(selectElementID, highlightingClassName);
-                    }
-                });
             } else {
                 console.log(`No matches for attribute "${attributeName}" were found. The dropdown will not be added.`);
             }
@@ -231,6 +254,6 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('No search scope defined. Please define at least one: element, ID, or class or a combination of it.');
         }
     } else {
-        console.error(`The target "${dropdownTargetPos}" could not be found.`);
+        console.error(`The target position "${dropdownTargetPos}" for <select id="${selectElementID}"> element not found. Could not add the element.`);
     }
 });
