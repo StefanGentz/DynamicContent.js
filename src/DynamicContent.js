@@ -3,11 +3,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Define constants for script metadata
     const scriptMetadata = {
         name: "Dynamic Content Highlighting",
-        version: "2024.4.007"
+        version: "2024.4.008"
     };
     /**
      * Name: Dynamic Content Highlighting
-     * Version: 2024.4.007
+     * Version: 2024.4.008
      * Shortdesc: Dynamically generates a dropdown from defined attribute values and highlights.
      * matching elements on selection change.
      * 
@@ -49,9 +49,9 @@ document.addEventListener('DOMContentLoaded', function() {
         function validateConfigInput() {
             let isValid = true;
             const errors = [];
-        
-            const requiredConfigs = ['styleElementID', 'selectElementID', 'attributeName', 'searchScopeSelector', 'dropdownTargetSelector', 'highlightingClass'];
-            requiredConfigs.forEach(key => {
+
+            const configKeys = Object.keys(config);
+            configKeys.forEach(key => {
                 if (!config[key].trim()) {
                     errors.push(`⛔️ "${key}" must not be empty.`);
                     isValid = false;
