@@ -113,15 +113,15 @@ In the example below, the `rev` attribute is used:
 Now, you only need to ensure that in `DynamicContent.js`, the `const attributeName` is defined accordingly. Make sure to prefix the attribute name with `data-` like in this example:
 
 ```javascript
-const  attributeName = 'data-rev';
+attributeName = "data-rev";
 ```
 
 If you want to use any other attribute, you need to define the attribute name accordingly. Assumed, you are using `platform` or `audience` in DITA, you need to define `const attributeName` like this:
 
 ```javascript
-const attributeName = 'data-platform';
+attributeName = "data-platform";
 // or
-const attributeName = 'data-audience';
+attributeName = "data-audience";
 ```
 
 #### Create a Client Library
