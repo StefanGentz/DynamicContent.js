@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     /**
      * Name: Dynamic Content Highlighting
-     * Version: 2024.4.005
+     * Version: 2024.4.006
      * Shortdesc: Dynamically generates a dropdown from defined attribute values and highlights.
      * matching elements on selection change.
      * 
@@ -38,9 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
         selectElementID: "dynamicContentSelect",
         selectElementDefaultText: "Select a release …",
         dropdownTargetSelector: 'div.topic.section',
-        searchScopeElement: 'div',
-        searchScopeID: '',
-        searchScopeClass: 'topic section',
+        searchScopeSelector: 'div.topic.section',
         attributeName: 'data-rev',
         highlightingClass: `data-rev-highlighted`,
         sortDirection: 'descending'
@@ -189,24 +187,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
         function main() {
             if (config.dropdownTargetSelector) {
-                
-                const searchScopeSelector = `${config.searchScopeElement || ''}${config.searchScopeID ? `#${config.searchScopeID}` : ''}${config.searchScopeClass ? `.${config.searchScopeClass.split(' ').join('.')}` : ''}`;
 
-                if (searchScopeSelector) {
-                    let sortedValues = collectAndSortAttributeValues(searchScopeSelector);
-                    if (sortedValues.length > 0) {
-                        let styleElement = createOrUpdateStyleElement ();
-                        let selectElement = createOrUpdateSelectElement(sortedValues);
-                        addEventListenerToSelectElement(styleElement, selectElement, searchScopeSelector);
+                const dropdownTargetPos = document.querySelector(config.dropdownTargetSelector);
+
+                if (dropdownTargetPos) {
+                    const searchScopeSelector = config.searchScopeSelector;
+                    if (searchScopeSelector) {
+                        let sortedValues = collectAndSortAttributeValues(searchScopeSelector);
+                        if (sortedValues.length > 0) {
+                            let styleElement = createOrUpdateStyleElement ();
+                            let selectElement = createOrUpdateSelectElement(sortedValues);
+                            addEventListenerToSelectElement(styleElement, selectElement, searchScopeSelector);
+                        } else {
+                            console.info(`No matches for attribute "${config.attributeName}" were found. The dropdown will not be added.`);
+                        }
                     } else {
-                        console.info(`No matches for attribute "${config.attributeName}" were found. The dropdown will not be added.`);
+                        console.error('No search scope defined. Please define at least one: element, ID, or class or a combination of it.');
                     }
                 } else {
-                    console.error('No search scope defined. Please define at least one: element, ID, or class or a combination of it.');
+                    console.error(`The target position "${config.dropdownTargetSelector}" for <select id="${config.selectElementID}"> element not found. Could not add the element.`);
                 }
-            } else {
-                console.error(`The target position "${config.dropdownTargetSelector}" for <select id="${config.selectElementID}"> element not found. Could not add the element.`);
-            }
+            };
         };
 
         main();
