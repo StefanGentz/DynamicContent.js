@@ -2,7 +2,10 @@
 
 ## Overview
 
-Dynamic Content Highlighting is a highly configurable, self-contained JavaScript script designed to enhance the user experience on websites by introducing a dynamic dropdown menu. This script allows users to visually highlight elements on a webpage based on the values of a specified custom attribute. Targeted at content-driven websites, it offers a seamless way to navigate and interact with dynamic content.
+Dynamic Content Highlighting is a highly configurable, self-contained JavaScript script designed to improve the user experience on websites. It enables the highlighting of content on a web page based on content properties defined by element attributes.
+
+DynamicContent.js inserts a selection dropdown at a definable location and populates it with the consolidated and sorted values of a definable element attribute. When the user selects a value in the selection dropdown, all elements within the defined area of the page (e.g., a specific part of the web page) that have the defined attribute with the corresponding value are visually highlighted. The type of highlighting can be customized using the embedded CSS.
+It is intended for content-oriented websites and provides a seamless way to navigate and interact with dynamic content.
 
 ## Features
 
@@ -18,7 +21,7 @@ Dynamic Content Highlighting is a highly configurable, self-contained JavaScript
 
 ## Version
 
-- 2024.4.005
+- 2024.4.009
 
 ## Author
 
@@ -65,7 +68,7 @@ const  attributeName = 'data-rev';
 
 #### Step 4: Style Customization
 
-Utilize the provided `customHighlightStyling()` function within the script to add custom styles for the dropdown and highlighted elements. This step is optional and depends on your site’s design requirements. You can customize the look and feel of the dropdown and highlighted content directly within the script or by linking a separate CSS file in your HTML template.
+Utilize the provided `customHighlightStyling()` function within the script to add custom styles for the dropdown and highlighted elements. This step is optional and depends on your site’s design requirements. You can customize the design of the dropdown and the highlighted content directly within the script or by linking a separate CSS file in your HTML template.
 
 ### Integration into Adobe Experience Manager (AEM) Sites
 
@@ -97,7 +100,7 @@ In the example below, the `rev` attribute is used:
 </topic>
 ```
 
-Now, you only need to make sure that in `DynamicContent.js`, the `const attributeName` is defined accordingly. Make sure to prefix the attribute name with `data-` like in this example:
+Now, you only need to ensure that in `DynamicContent.js`, the `const attributeName` is defined accordingly. Make sure to prefix the attribute name with `data-` like in this example:
 
 ```javascript
 const  attributeName = 'data-rev';
@@ -119,11 +122,11 @@ const attributeName = 'data-audience';
 #### Embedding in a Component
 
 - For direct use within a specific AEM component, include the script tag referencing this JS file at the bottom of the component’s HTML file.
-- Alternatively, use AEM’s HTML Template Language (HTL) to conditionally include the script based on component properties.
+- Alternatively, use AEM’s HTML Template Language (HTL) to include the script based on component properties conditionally.
 
 #### Global Use Across the Site
 
-- To apply this functionality broadly across the site, include the client library in the global page template to ensure the script is loaded on every page where the functionality might be useful.
+- To apply this functionality broadly across the site, include the client library in the global page template to ensure the script is loaded on every page where it might be useful.
 
 ### Integration into the DITA Open Toolkit (DITA-OT)
 
