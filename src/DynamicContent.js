@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Define constants for script metadata
     const scriptMetadata = {
         name: "Dynamic Content Highlighting",
-        version: "2024.4.005"
+        version: "2024.4.006"
     };
     /**
      * Name: Dynamic Content Highlighting
@@ -47,90 +47,89 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     (function() {
+        function customHighlightStyling(selectElementID, highlightingClass) {
         // Generates custom CSS for the dropdown and highlighted elements
         // using dynamic IDs and class names.
-        function customHighlightStyling(selectElementID, highlightingClass) {
             return `
-        /*
-        Custom CSS for JavaScript "${scriptMetadata.name}", Version ${scriptMetadata.version}.
-        When editing make sure to keep the {variables} prefixed with "$" as
-        they will be populated during runtime.
-        */
-        
-        :root {
-            --corporate-base-color: rgb(8 117 225);
-        }
-        
-        select#${selectElementID} {
-            /* Custom style classes for the dropdown */
-        
-            /* reset standard select */
-            margin: 0;      
-            -webkit-box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            box-sizing: border-box;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-        
-            /* custom select styling */
-            margin-left: 20px;
-            margin-right: 0px;
-            margin-bottom: 20px;
-            float: right;
-            background-color: white;
-            border: thin solid var(--corporate-base-color);
-            border-radius: 5px;
-            display: inline-block;
-            font: inherit;
-            font-weight: bold;
-            color: var(--corporate-base-color);
-            line-height: 1.5em;
-            padding: 0.5em 3.5em 0.5em 1em;
-            background-image:
-                linear-gradient(45deg, transparent 50%, rgb(255 255 255) 50%),
-                linear-gradient(135deg, rgb(255 255 255) 50%, transparent 50%),
-                radial-gradient(var(--corporate-base-color) 70%, transparent 72%);
-            background-position:
-                calc(100% - 20px) calc(1em + 2px),
-                calc(100% - 15px) calc(1em + 2px),
-                calc(100% - .5em) .5em;
-            background-size:
-                5px 5px,
-                5px 5px,
-                1.5em 1.5em;
-            background-repeat: no-repeat;
-        }
-        select#release-select:focus {
-            background-image:
-                linear-gradient(45deg, white 50%, transparent 50%),
-                linear-gradient(135deg, transparent 50%, white 50%),
-                radial-gradient(var(--corporate-base-color) 70%, transparent 72%);
-            background-position:
-                calc(100% - 15px) 1em,
-                calc(100% - 20px) 1em,
-                calc(100% - .5em) .5em;
-            background-size:
-                5px 5px,
-                5px 5px,
-                1.5em 1.5em;
-            background-repeat: no-repeat;
-            border-color: rgb(8 117 225);
-            outline: 0;
-        }
-        
-        /* Styling for highlighting the elements */
-        
-        .topic .topic :not(.${highlightingClass}) {
-            /* Could be used in a future version to format the rest of the topic in, e.g., gray, to make the highlighted text stand out more */ 
-            /* color: rgb(90, 90, 90); */
-        }
-        
-        .${highlightingClass}, .${highlightingClass} * {
-            color: var(--corporate-base-color) !important;
-            font-weight: bold;
-        }
-        `;
-        }
+            /*
+            Custom CSS for JavaScript "${scriptMetadata.name}", Version ${scriptMetadata.version}.
+            When editing make sure to keep the {variables} prefixed with "$" as
+            they will be populated during runtime.
+            */
+            
+            :root {
+                --corporate-base-color: rgb(8 117 225);
+            }
+            
+            select#${selectElementID} {
+                /* Custom style classes for the dropdown */
+            
+                /* reset standard select */
+                margin: 0;      
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+            
+                /* custom select styling */
+                margin-left: 20px;
+                margin-right: 0px;
+                margin-bottom: 20px;
+                float: right;
+                background-color: white;
+                border: thin solid var(--corporate-base-color);
+                border-radius: 5px;
+                display: inline-block;
+                font: inherit;
+                font-weight: bold;
+                color: var(--corporate-base-color);
+                line-height: 1.5em;
+                padding: 0.5em 3.5em 0.5em 1em;
+                background-image:
+                    linear-gradient(45deg, transparent 50%, rgb(255 255 255) 50%),
+                    linear-gradient(135deg, rgb(255 255 255) 50%, transparent 50%),
+                    radial-gradient(var(--corporate-base-color) 70%, transparent 72%);
+                background-position:
+                    calc(100% - 20px) calc(1em + 2px),
+                    calc(100% - 15px) calc(1em + 2px),
+                    calc(100% - .5em) .5em;
+                background-size:
+                    5px 5px,
+                    5px 5px,
+                    1.5em 1.5em;
+                background-repeat: no-repeat;
+            }
+            select#release-select:focus {
+                background-image:
+                    linear-gradient(45deg, white 50%, transparent 50%),
+                    linear-gradient(135deg, transparent 50%, white 50%),
+                    radial-gradient(var(--corporate-base-color) 70%, transparent 72%);
+                background-position:
+                    calc(100% - 15px) 1em,
+                    calc(100% - 20px) 1em,
+                    calc(100% - .5em) .5em;
+                background-size:
+                    5px 5px,
+                    5px 5px,
+                    1.5em 1.5em;
+                background-repeat: no-repeat;
+                border-color: rgb(8 117 225);
+                outline: 0;
+            }
+            
+            /* Styling for highlighting the elements */
+            
+            .topic .topic :not(.${highlightingClass}) {
+                /* Could be used in a future version to format the rest of the topic in, e.g., gray, to make the highlighted text stand out more */ 
+                /* color: rgb(90, 90, 90); */
+            }
+            
+            .${highlightingClass}, .${highlightingClass} * {
+                color: var(--corporate-base-color) !important;
+                font-weight: bold;
+            }`;
+        };
 
         function createOrUpdateStyleElement() {
             let styleElement = document.head.querySelector(`style#${config.styleElementID}`);
@@ -143,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.head.appendChild(styleElement);
             }
             return styleElement;
-        }
+        };
 
         function collectAndSortAttributeValues(searchScopeSelector) {
             const attributeValues = new Set();
@@ -158,7 +157,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
             return sortedValues;
-        }
+        };
 
         function createOrUpdateSelectElement(sortedValues) {
             let selectElement = document.body.querySelector(`select#${config.selectElementID}`);
@@ -176,7 +175,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             
             return selectElement;
-        }
+        };
 
         function addEventListenerToSelectElement(styleElement, selectElement, searchScopeSelector) {
             selectElement.addEventListener('change', function() {
@@ -186,12 +185,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 styleElement.innerHTML = customHighlightStyling(config.selectElementID, config.highlightingClass);
             });
-        }
+        };
 
         function main() {
             if (config.dropdownTargetSelector) {
+                
                 const searchScopeSelector = `${config.searchScopeElement || ''}${config.searchScopeID ? `#${config.searchScopeID}` : ''}${config.searchScopeClass ? `.${config.searchScopeClass.split(' ').join('.')}` : ''}`;
-    
+
                 if (searchScopeSelector) {
                     let sortedValues = collectAndSortAttributeValues(searchScopeSelector);
                     if (sortedValues.length > 0) {
@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         let selectElement = createOrUpdateSelectElement(sortedValues);
                         addEventListenerToSelectElement(styleElement, selectElement, searchScopeSelector);
                     } else {
-                        console.log(`No matches for attribute "${config.attributeName}" were found. The dropdown will not be added.`);
+                        console.info(`No matches for attribute "${config.attributeName}" were found. The dropdown will not be added.`);
                     }
                 } else {
                     console.error('No search scope defined. Please define at least one: element, ID, or class or a combination of it.');
@@ -207,7 +207,7 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 console.error(`The target position "${config.dropdownTargetSelector}" for <select id="${config.selectElementID}"> element not found. Could not add the element.`);
             }
-        }
+        };
 
         main();
     })();
