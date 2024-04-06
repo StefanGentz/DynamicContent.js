@@ -3,11 +3,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Define constants for script metadata
     const scriptMetadata = {
         name: "Dynamic Content Highlighting",
-        version: "2024.4.008"
+        version: "2024.4.009"
     };
     /**
      * Name: Dynamic Content Highlighting
-     * Version: 2024.4.008
+     * Version: 2024.4.009
      * Shortdesc: Dynamically generates a dropdown from defined attribute values and highlights.
      * matching elements on selection change.
      * 
@@ -199,21 +199,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
         function createOrUpdateSelectElement(sortedValues) {
             let selectElement = document.body.querySelector(`select#${config.selectElementID}`);
-            if (selectElement) {
-                while (selectElement.firstChild) { selectElement.removeChild(selectElement.firstChild); }
-            } else {
+            if (!selectElement) {
                 selectElement = document.createElement('select');
                 selectElement.id = config.selectElementID;
-                const dropdownTargetPos = document.querySelector(config.dropdownTargetSelector);
-                dropdownTargetPos.insertBefore(selectElement, dropdownTargetPos.firstChild);
+                document.querySelector(config.dropdownTargetSelector)?.prepend(selectElement);
+            } else {
+                while (selectElement.firstChild) {
+                    selectElement.removeChild(selectElement.firstChild);
+                }
             }
             selectElement.append(new Option(config.selectElementDefaultText, ''));
             sortedValues.forEach(value => {
                 selectElement.append(new Option(value, value));
             });
-            
+    
             return selectElement;
-        };
+        }
 
         function addEventListenerToSelectElement(styleElement, selectElement, searchScopeSelector) {
             selectElement.addEventListener('change', function() {
