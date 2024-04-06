@@ -59,11 +59,21 @@ In this example, the select dropdown will be populated with the values "2024.1" 
 
 #### Step 3: Define Customization Variables
 
-Inside the `DynamicContent.js` script, or within a `<script>` tag in your HTML template, define any customization variables to tailor the script’s functionality to your needs. This includes specifying the target area for the dropdown, the attribute used for highlighting, and any custom CSS styles. For example:
+Inside the `DynamicContent.js` script, define any customization variables to tailor the script’s functionality to your needs. This includes specifying the ID for the `<style`> element, the ID for the `<select>` dropdown element, the text string for the default `<select>` dropdown element option, the selector where to insert the `<select>` dropdown, the selector to limit the page area to limit the scope for attribute querying, the attribute used to query, the name for the CSS class for your highlighting style, and if you want to sort the values in the `<select>` dropdown ascending or descending.
+
+Default definitions:
 
 ```javascript
-const  dropdownTargetPos = document.querySelector('.topic .section');
-const  attributeName = 'data-rev';
+const config = {
+    styleElementID: "dynamicContentStyles",
+    selectElementID: "dynamicContentSelect",
+    selectElementDefaultText: "Select a release …",
+    dropdownTargetSelector: "div.topic.section",
+    searchScopeSelector: "div.topic.section",
+    attributeName: "data-rev",
+    highlightingClass: "data-rev-highlighted",
+    sortDirection: "descending"
+};
 ```
 
 #### Step 4: Style Customization
