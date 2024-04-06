@@ -3,11 +3,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Define constants for script metadata
     const scriptMetadata = {
         name: "Dynamic Content Highlighting",
-        version: "2024.4.006"
+        version: "2024.4.007"
     };
     /**
      * Name: Dynamic Content Highlighting
-     * Version: 2024.4.006
+     * Version: 2024.4.007
      * Shortdesc: Dynamically generates a dropdown from defined attribute values and highlights.
      * matching elements on selection change.
      * 
@@ -37,14 +37,56 @@ document.addEventListener('DOMContentLoaded', function() {
         styleElementID: "dynamicContentStyles",
         selectElementID: "dynamicContentSelect",
         selectElementDefaultText: "Select a release …",
-        dropdownTargetSelector: 'div.topic.section',
-        searchScopeSelector: 'div.topic.section',
-        attributeName: 'data-rev',
-        highlightingClass: `data-rev-highlighted`,
-        sortDirection: 'descending'
+        dropdownTargetSelector: "div.topic.section",
+        searchScopeSelector: "div.topic.section",
+        attributeName: "data-rev",
+        highlightingClass: "data-rev-highlighted",
+        sortDirection: "descending"
     };
 
     (function() {
+
+        function validateConfigInput() {
+            let isValid = true;
+            const errors = [];
+        
+            const requiredConfigs = ['styleElementID', 'selectElementID', 'attributeName', 'searchScopeSelector', 'dropdownTargetSelector', 'highlightingClass'];
+            requiredConfigs.forEach(key => {
+                if (!config[key].trim()) {
+                    errors.push(`⛔️ "${key}" must not be empty.`);
+                    isValid = false;
+                }
+            });
+
+            const selectorConfigs = ['searchScopeSelector', 'dropdownTargetSelector'];
+            selectorConfigs.forEach(key => {
+                if (config[key].trim()) {
+                    try {
+                        const element = document.querySelector(config[key]);
+                        if (!element) {
+                            errors.push(`⛔️ No element found for "${key}": ${config[key]}`);
+                            isValid = false;
+                        }
+                    } catch (e) {
+                        errors.push(`⛔️ "${key}" is invalid: ${e.message}`);
+                        isValid = false;
+                    }
+                }
+            });
+
+            if (config.sortDirection !== 'descending' && config.sortDirection !== 'ascending') {
+                errors.push(`⛔️ "sortDirection" must be either "descending" or "ascending".`);
+                isValid = false;
+            }
+
+            // Report all errors
+            if (!isValid) {
+                console.error(`🚨 Configuration errors found:\n` + errors.join(`\n`));
+            }
+        
+            return isValid;
+        };
+
         function customHighlightStyling(selectElementID, highlightingClass) {
         // Generates custom CSS for the dropdown and highlighted elements
         // using dynamic IDs and class names.
@@ -131,14 +173,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
         function createOrUpdateStyleElement() {
             let styleElement = document.head.querySelector(`style#${config.styleElementID}`);
-            if (styleElement) {
-                styleElement.innerHTML = customHighlightStyling(config.selectElementID, config.highlightingClass);
-            } else {
+            if (!styleElement) {
                 styleElement = document.createElement('style');
                 styleElement.id = config.styleElementID;
-                styleElement.innerHTML = customHighlightStyling(config.selectElementID, config.highlightingClass);
-                document.head.appendChild(styleElement);
+                document.head.append(styleElement);
             }
+            styleElement.textContent = customHighlightStyling(config.selectElementID, config.highlightingClass);
             return styleElement;
         };
 
@@ -186,28 +226,18 @@ document.addEventListener('DOMContentLoaded', function() {
         };
 
         function main() {
-            if (config.dropdownTargetSelector) {
+            if (!validateConfigInput()) {
+                return;
+            }
 
-                const dropdownTargetPos = document.querySelector(config.dropdownTargetSelector);
-
-                if (dropdownTargetPos) {
-                    const searchScopeSelector = config.searchScopeSelector;
-                    if (searchScopeSelector) {
-                        let sortedValues = collectAndSortAttributeValues(searchScopeSelector);
-                        if (sortedValues.length > 0) {
-                            let styleElement = createOrUpdateStyleElement ();
-                            let selectElement = createOrUpdateSelectElement(sortedValues);
-                            addEventListenerToSelectElement(styleElement, selectElement, searchScopeSelector);
-                        } else {
-                            console.info(`No matches for attribute "${config.attributeName}" were found. The dropdown will not be added.`);
-                        }
-                    } else {
-                        console.error('No search scope defined. Please define at least one: element, ID, or class or a combination of it.');
-                    }
-                } else {
-                    console.error(`The target position "${config.dropdownTargetSelector}" for <select id="${config.selectElementID}"> element not found. Could not add the element.`);
-                }
-            };
+            let sortedValues = collectAndSortAttributeValues(config.searchScopeSelector);
+            if (sortedValues.length > 0) {
+                let styleElement = createOrUpdateStyleElement();
+                let selectElement = createOrUpdateSelectElement(sortedValues);
+                addEventListenerToSelectElement(styleElement, selectElement, config.searchScopeSelector);
+            } else {
+                console.info(`No matches for attribute "${config.attributeName}" were found. The dropdown will not be added.`);
+            }
         };
 
         main();
